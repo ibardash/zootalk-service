@@ -12,6 +12,7 @@
     "baseUrl": ".",
     "paths": {
       "local/api": ["src/api"],
+      "local/api/*": ["src/api/*"],
       "local/app": ["src/app"],
       "local/app/*": ["src/app/*"],
       "local/repository": ["src/repository"],

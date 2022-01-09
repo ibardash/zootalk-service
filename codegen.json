@@ -1,0 +1,15 @@
+{
+  "generates": {
+    "src/api/types/resolverTypes.generated.ts": {
+      "schema": ["src/api/modules/*.ts"],
+      "plugins": ["typescript", "typescript-resolvers"]
+    }
+  },
+  "config": {
+    "federation": false,
+    "useIndexSignature": true,
+    "noSchemaStitching": true,
+    "typesPrefix": "GraphQL",
+    "contextType": "local/api/types#Context"
+  }
+}

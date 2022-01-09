@@ -11,7 +11,9 @@
     "test": "yarn jest --runInBand",
     "test:watch": "yarn test --watchAll",
     "lint": "yarn eslint . --ext .js,.ts",
-    "format": "yarn lint --fix && prettier --write '**/*.{js,ts,json}'"
+    "format": "yarn lint --fix && prettier --write '**/*.{js,ts,json}'",
+    "generate": "graphql-codegen --config codegen.json",
+    "generate:watch": "yarn generate --watch"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
@@ -19,10 +21,19 @@
     "@babel/node": "^7.14.7",
     "@babel/preset-env": "^7.14.7",
     "@babel/preset-typescript": "^7.14.5",
+    "@graphql-codegen/cli": "^2.3.1",
+    "@graphql-codegen/introspection": "^2.1.1",
+    "@graphql-codegen/near-operation-file-preset": "^2.2.3",
+    "@graphql-codegen/typescript": "^2.4.2",
+    "@graphql-codegen/typescript-document-nodes": "^2.2.2",
+    "@graphql-codegen/typescript-operations": "^2.2.2",
+    "@graphql-codegen/typescript-resolvers": "^2.4.3",
+    "@graphql-tools/utils": "^8.6.0",
     "@types/jest": "^26.0.24",
     "@types/koa": "^2.13.4",
     "@types/koa__cors": "^3.0.3",
     "@types/koa__router": "^8.0.7",
+    "@types/lodash": "^4.14.178",
     "@types/node": "^16.3.1",
     "@typescript-eslint/eslint-plugin": "^4.28.3",
     "@typescript-eslint/parser": "^4.28.3",
@@ -38,8 +49,11 @@
   "dependencies": {
     "@koa/cors": "^3.1.0",
     "@koa/router": "^10.0.0",
+    "apollo-server-core": "^3.6.1",
+    "apollo-server-koa": "^3.6.1",
     "axios": "^0.21.1",
-    "koa": "^2.13.1",
-    "node-cache": "^5.1.2"
+    "graphql": "^16.2.0",
+    "koa": "^2.13.4",
+    "lodash": "^4.17.21"
   }
 }
