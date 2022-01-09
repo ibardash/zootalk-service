@@ -47,6 +47,7 @@ export type GraphQLQuery = {
 export type GraphQLSubscription = {
   __typename?: 'Subscription';
   _empty?: Maybe<Scalars['Boolean']>;
+  messagePosted?: Maybe<Scalars['String']>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -163,6 +164,7 @@ export type GraphQLQueryResolvers<ContextType = Context, ParentType extends Grap
 
 export type GraphQLSubscriptionResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['Subscription'] = GraphQLResolversParentTypes['Subscription']> = ResolversObject<{
   _empty?: SubscriptionResolver<Maybe<GraphQLResolversTypes['Boolean']>, "_empty", ParentType, ContextType>;
+  messagePosted?: SubscriptionResolver<Maybe<GraphQLResolversTypes['String']>, "messagePosted", ParentType, ContextType>;
 }>;
 
 export type GraphQLResolvers<ContextType = Context> = ResolversObject<{
