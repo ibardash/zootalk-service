@@ -7,6 +7,9 @@ import {
   typeDefs as zooTypeDefs,
   resolvers as zooResolvers,
 } from "./modules/zoo";
+import { makeExecutableSchema } from "@graphql-tools/schema";
 
-export const typeDefs = [baseTypeDefs, zooTypeDefs];
-export const resolvers = merge(baseResolvers, zooResolvers);
+const typeDefs = [baseTypeDefs, zooTypeDefs];
+const resolvers = merge(baseResolvers, zooResolvers);
+
+export const zootalkSchema = makeExecutableSchema({ typeDefs, resolvers });
