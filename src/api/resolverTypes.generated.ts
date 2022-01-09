@@ -41,9 +41,7 @@ export type GraphQLMutationSendMessageArgs = {
 export type GraphQLQuery = {
   __typename?: 'Query';
   _empty?: Maybe<Scalars['Boolean']>;
-  aa?: Maybe<Scalars['String']>;
-  numberSeven?: Maybe<Scalars['Int']>;
-  numberSix?: Maybe<Scalars['Int']>;
+  messages: Array<Scalars['String']>;
 };
 
 export type GraphQLSubscription = {
@@ -124,7 +122,6 @@ export type GraphQLResolversTypes = ResolversObject<{
   Author: ResolverTypeWrapper<GraphQLAuthor>;
   Book: ResolverTypeWrapper<GraphQLBook>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
@@ -136,7 +133,6 @@ export type GraphQLResolversParentTypes = ResolversObject<{
   Author: GraphQLAuthor;
   Book: GraphQLBook;
   Boolean: Scalars['Boolean'];
-  Int: Scalars['Int'];
   Mutation: {};
   Query: {};
   String: Scalars['String'];
@@ -162,9 +158,7 @@ export type GraphQLMutationResolvers<ContextType = Context, ParentType extends G
 
 export type GraphQLQueryResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['Query'] = GraphQLResolversParentTypes['Query']> = ResolversObject<{
   _empty?: Resolver<Maybe<GraphQLResolversTypes['Boolean']>, ParentType, ContextType>;
-  aa?: Resolver<Maybe<GraphQLResolversTypes['String']>, ParentType, ContextType>;
-  numberSeven?: Resolver<Maybe<GraphQLResolversTypes['Int']>, ParentType, ContextType>;
-  numberSix?: Resolver<Maybe<GraphQLResolversTypes['Int']>, ParentType, ContextType>;
+  messages?: Resolver<Array<GraphQLResolversTypes['String']>, ParentType, ContextType>;
 }>;
 
 export type GraphQLSubscriptionResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['Subscription'] = GraphQLResolversParentTypes['Subscription']> = ResolversObject<{

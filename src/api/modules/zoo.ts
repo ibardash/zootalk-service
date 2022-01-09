@@ -1,5 +1,5 @@
 import { gql } from "apollo-server-koa";
-import { GraphQLResolvers } from "local/api/types/resolverTypes.generated";
+import { GraphQLResolvers } from "local/api/resolverTypes.generated";
 
 export const typeDefs = gql`
   type Book {
