@@ -1,0 +1,45 @@
+{
+  "name": "zootalk-service",
+  "version": "1.0.0",
+  "private": true,
+  "author": "Iana Bardash",
+  "scripts": {
+    "start": "docker compose up app",
+    "clean": "rm -rf build/",
+    "build": "babel src --out-dir build --extensions \".ts,.js\" --ignore '**/*.test.ts'",
+    "serve": "nodemon --exec babel-node --extensions \".ts\" src/app/server.ts",
+    "test": "yarn jest --runInBand",
+    "test:watch": "yarn test --watchAll",
+    "lint": "yarn eslint . --ext .js,.ts",
+    "format": "yarn lint --fix && prettier --write '**/*.{js,ts,json}'"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.14.5",
+    "@babel/core": "^7.14.6",
+    "@babel/node": "^7.14.7",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/preset-typescript": "^7.14.5",
+    "@types/jest": "^26.0.24",
+    "@types/koa": "^2.13.4",
+    "@types/koa__cors": "^3.0.3",
+    "@types/koa__router": "^8.0.7",
+    "@types/node": "^16.3.1",
+    "@typescript-eslint/eslint-plugin": "^4.28.3",
+    "@typescript-eslint/parser": "^4.28.3",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "eslint": "^7.30.0",
+    "eslint-config-prettier": "^8.3.0",
+    "jest": "^27.0.6",
+    "nodemon": "^2.0.12",
+    "prettier": "^2.3.2",
+    "typescript": "^4.3.5",
+    "typescript-eslint": "^0.0.1-alpha.0"
+  },
+  "dependencies": {
+    "@koa/cors": "^3.1.0",
+    "@koa/router": "^10.0.0",
+    "axios": "^0.21.1",
+    "koa": "^2.13.1",
+    "node-cache": "^5.1.2"
+  }
+}

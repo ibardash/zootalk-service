@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: yarn serve
+    volumes:
+      - .:/root/app
+    ports:
+      - ${PORT:-4000}:4000
+    working_dir: /root/app
+    environment:
+      - ENV=local
