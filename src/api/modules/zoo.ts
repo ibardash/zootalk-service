@@ -48,6 +48,7 @@ export const resolvers: GraphQLResolvers = {
   },
   Subscription: {
     messagePosted: {
+      // error due to: https://github.com/dotansimha/graphql-code-generator/issues/7197
       subscribe: () => pubsub.asyncIterator(["MESSAGE_POSTED"]),
     },
   },

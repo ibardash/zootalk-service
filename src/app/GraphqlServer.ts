@@ -50,7 +50,6 @@ export class GraphqlServer {
   async start(port: string): Promise<void> {
     await this.apolloServer.start();
     this.apolloServer.applyMiddleware({ app: this.app });
-    this.httpServer.on("request", this.app.callback());
 
     await new Promise<void>((resolve) =>
       this.httpServer.listen({ port }, resolve)
