@@ -4,6 +4,7 @@ import {
   findZooByLocation,
   findZooForChat,
   findZooForUser,
+  listAllZoos,
 } from "local/domain/repository";
 
 export const typeDefs = gql`
@@ -23,6 +24,7 @@ export const typeDefs = gql`
 
   extend type Query {
     zoo(location: Location!): Zoo
+    zoos: [Zoo!]
   }
 `;
 
@@ -40,6 +42,9 @@ export const resolvers: GraphQLResolvers = {
   Query: {
     zoo(_parent, { location }) {
       return findZooByLocation(location);
+    },
+    zoos(_parent) {
+      return listAllZoos();
     },
   },
 };

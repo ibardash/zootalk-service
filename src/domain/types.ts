@@ -3,9 +3,9 @@ export interface Context {
 }
 
 export enum LOCATION {
-  WEST,
-  CENTRE,
-  EAST,
+  WEST = "WEST",
+  CENTRE = "CENTRE",
+  EAST = "EAST",
 }
 
 export interface Zoo {

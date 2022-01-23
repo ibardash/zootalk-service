@@ -13,11 +13,11 @@ export const typeDefs = gql`
   }
 
   extend type Chat {
-    messages: [Message]
+    messages: [Message!]
   }
 
   extend type Mutation {
-    sendMessage(content: String!, poster: String!, chatId: String!): Message
+    postMessage(content: String!, poster: String!, chatId: String!): Message
   }
 
   extend type Subscription {
@@ -32,7 +32,7 @@ export const resolvers: GraphQLResolvers = {
     },
   },
   Mutation: {
-    sendMessage(_parent, args) {
+    postMessage(_parent, args) {
       const message = createMessage(args);
 
       pubsub.publish("MESSAGE_POSTED", {

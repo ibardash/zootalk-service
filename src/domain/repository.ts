@@ -27,6 +27,10 @@ const chats: Chat[] = zoos.map((zoo) => ({
 const messages: Message[] = [];
 const users: User[] = [];
 
+export const listAllZoos = (): Zoo[] => {
+  return zoos;
+};
+
 export const findZooByLocation = (location: LOCATION): Zoo | null => {
   return zoos.find((zoo) => zoo.location === location) ?? null;
 };
