@@ -1,3 +1,5 @@
+import { LOCATION } from 'local/domain/types';
+import Location = LOCATION;
 import { GraphQLResolveInfo } from 'graphql';
 import { Context } from 'local/api/types';
 export type Maybe<T> = T | null;
@@ -5,6 +7,7 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type EnumResolverSignature<T, AllowedValues = any> = { [key in keyof T]?: AllowedValues };
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -15,39 +18,79 @@ export type Scalars = {
   Float: number;
 };
 
-export type GraphQLAuthor = {
-  __typename?: 'Author';
-  books?: Maybe<Array<Maybe<GraphQLBook>>>;
-  name?: Maybe<Scalars['String']>;
+export type GraphQLChat = {
+  __typename?: 'Chat';
+  id: Scalars['String'];
+  messages?: Maybe<Array<Maybe<GraphQLMessage>>>;
+  zoo?: Maybe<GraphQLZoo>;
 };
 
-export type GraphQLBook = {
-  __typename?: 'Book';
-  author?: Maybe<GraphQLAuthor>;
-  title?: Maybe<Scalars['String']>;
+export { Location };
+
+export type GraphQLMessage = {
+  __typename?: 'Message';
+  content?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  poster: Scalars['String'];
 };
 
 export type GraphQLMutation = {
   __typename?: 'Mutation';
   _empty?: Maybe<Scalars['Boolean']>;
-  sendMessage?: Maybe<Scalars['String']>;
+  createUser?: Maybe<GraphQLUser>;
+  sendMessage?: Maybe<GraphQLMessage>;
+};
+
+
+export type GraphQLMutationCreateUserArgs = {
+  name: Scalars['String'];
+  zooId: Scalars['String'];
 };
 
 
 export type GraphQLMutationSendMessageArgs = {
-  message: Scalars['String'];
+  chatId: Scalars['String'];
+  content: Scalars['String'];
+  poster: Scalars['String'];
 };
 
 export type GraphQLQuery = {
   __typename?: 'Query';
   _empty?: Maybe<Scalars['Boolean']>;
-  messages: Array<Scalars['String']>;
+  user?: Maybe<GraphQLUser>;
+  zoo?: Maybe<GraphQLZoo>;
+};
+
+
+export type GraphQLQueryUserArgs = {
+  id: Scalars['String'];
+};
+
+
+export type GraphQLQueryZooArgs = {
+  location: Location;
 };
 
 export type GraphQLSubscription = {
   __typename?: 'Subscription';
   _empty?: Maybe<Scalars['Boolean']>;
-  messagePosted?: Maybe<Scalars['String']>;
+  messagePosted?: Maybe<GraphQLMessage>;
+};
+
+export type GraphQLUser = {
+  __typename?: 'User';
+  chat?: Maybe<GraphQLChat>;
+  id: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
+  zoo?: Maybe<GraphQLZoo>;
+};
+
+export type GraphQLZoo = {
+  __typename?: 'Zoo';
+  id: Scalars['String'];
+  location: Location;
+  name?: Maybe<Scalars['String']>;
+  visitors?: Maybe<Array<Maybe<GraphQLUser>>>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -120,58 +163,88 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type GraphQLResolversTypes = ResolversObject<{
-  Author: ResolverTypeWrapper<GraphQLAuthor>;
-  Book: ResolverTypeWrapper<GraphQLBook>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  Chat: ResolverTypeWrapper<GraphQLChat>;
+  Location: LOCATION;
+  Message: ResolverTypeWrapper<GraphQLMessage>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Subscription: ResolverTypeWrapper<{}>;
+  User: ResolverTypeWrapper<GraphQLUser>;
+  Zoo: ResolverTypeWrapper<GraphQLZoo>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type GraphQLResolversParentTypes = ResolversObject<{
-  Author: GraphQLAuthor;
-  Book: GraphQLBook;
   Boolean: Scalars['Boolean'];
+  Chat: GraphQLChat;
+  Message: GraphQLMessage;
   Mutation: {};
   Query: {};
   String: Scalars['String'];
   Subscription: {};
+  User: GraphQLUser;
+  Zoo: GraphQLZoo;
 }>;
 
-export type GraphQLAuthorResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['Author'] = GraphQLResolversParentTypes['Author']> = ResolversObject<{
-  books?: Resolver<Maybe<Array<Maybe<GraphQLResolversTypes['Book']>>>, ParentType, ContextType>;
-  name?: Resolver<Maybe<GraphQLResolversTypes['String']>, ParentType, ContextType>;
+export type GraphQLChatResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['Chat'] = GraphQLResolversParentTypes['Chat']> = ResolversObject<{
+  id?: Resolver<GraphQLResolversTypes['String'], ParentType, ContextType>;
+  messages?: Resolver<Maybe<Array<Maybe<GraphQLResolversTypes['Message']>>>, ParentType, ContextType>;
+  zoo?: Resolver<Maybe<GraphQLResolversTypes['Zoo']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type GraphQLBookResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['Book'] = GraphQLResolversParentTypes['Book']> = ResolversObject<{
-  author?: Resolver<Maybe<GraphQLResolversTypes['Author']>, ParentType, ContextType>;
-  title?: Resolver<Maybe<GraphQLResolversTypes['String']>, ParentType, ContextType>;
+export type GraphQLLocationResolvers = EnumResolverSignature<{ CENTRE?: any, EAST?: any, WEST?: any }, GraphQLResolversTypes['Location']>;
+
+export type GraphQLMessageResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['Message'] = GraphQLResolversParentTypes['Message']> = ResolversObject<{
+  content?: Resolver<Maybe<GraphQLResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<GraphQLResolversTypes['String'], ParentType, ContextType>;
+  poster?: Resolver<GraphQLResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type GraphQLMutationResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['Mutation'] = GraphQLResolversParentTypes['Mutation']> = ResolversObject<{
   _empty?: Resolver<Maybe<GraphQLResolversTypes['Boolean']>, ParentType, ContextType>;
-  sendMessage?: Resolver<Maybe<GraphQLResolversTypes['String']>, ParentType, ContextType, RequireFields<GraphQLMutationSendMessageArgs, 'message'>>;
+  createUser?: Resolver<Maybe<GraphQLResolversTypes['User']>, ParentType, ContextType, RequireFields<GraphQLMutationCreateUserArgs, 'name' | 'zooId'>>;
+  sendMessage?: Resolver<Maybe<GraphQLResolversTypes['Message']>, ParentType, ContextType, RequireFields<GraphQLMutationSendMessageArgs, 'chatId' | 'content' | 'poster'>>;
 }>;
 
 export type GraphQLQueryResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['Query'] = GraphQLResolversParentTypes['Query']> = ResolversObject<{
   _empty?: Resolver<Maybe<GraphQLResolversTypes['Boolean']>, ParentType, ContextType>;
-  messages?: Resolver<Array<GraphQLResolversTypes['String']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<GraphQLResolversTypes['User']>, ParentType, ContextType, RequireFields<GraphQLQueryUserArgs, 'id'>>;
+  zoo?: Resolver<Maybe<GraphQLResolversTypes['Zoo']>, ParentType, ContextType, RequireFields<GraphQLQueryZooArgs, 'location'>>;
 }>;
 
 export type GraphQLSubscriptionResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['Subscription'] = GraphQLResolversParentTypes['Subscription']> = ResolversObject<{
   _empty?: SubscriptionResolver<Maybe<GraphQLResolversTypes['Boolean']>, "_empty", ParentType, ContextType>;
-  messagePosted?: SubscriptionResolver<Maybe<GraphQLResolversTypes['String']>, "messagePosted", ParentType, ContextType>;
+  messagePosted?: SubscriptionResolver<Maybe<GraphQLResolversTypes['Message']>, "messagePosted", ParentType, ContextType>;
+}>;
+
+export type GraphQLUserResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['User'] = GraphQLResolversParentTypes['User']> = ResolversObject<{
+  chat?: Resolver<Maybe<GraphQLResolversTypes['Chat']>, ParentType, ContextType>;
+  id?: Resolver<GraphQLResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<Maybe<GraphQLResolversTypes['String']>, ParentType, ContextType>;
+  zoo?: Resolver<Maybe<GraphQLResolversTypes['Zoo']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type GraphQLZooResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['Zoo'] = GraphQLResolversParentTypes['Zoo']> = ResolversObject<{
+  id?: Resolver<GraphQLResolversTypes['String'], ParentType, ContextType>;
+  location?: Resolver<GraphQLResolversTypes['Location'], ParentType, ContextType>;
+  name?: Resolver<Maybe<GraphQLResolversTypes['String']>, ParentType, ContextType>;
+  visitors?: Resolver<Maybe<Array<Maybe<GraphQLResolversTypes['User']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type GraphQLResolvers<ContextType = Context> = ResolversObject<{
-  Author?: GraphQLAuthorResolvers<ContextType>;
-  Book?: GraphQLBookResolvers<ContextType>;
+  Chat?: GraphQLChatResolvers<ContextType>;
+  Location?: GraphQLLocationResolvers;
+  Message?: GraphQLMessageResolvers<ContextType>;
   Mutation?: GraphQLMutationResolvers<ContextType>;
   Query?: GraphQLQueryResolvers<ContextType>;
   Subscription?: GraphQLSubscriptionResolvers<ContextType>;
+  User?: GraphQLUserResolvers<ContextType>;
+  Zoo?: GraphQLZooResolvers<ContextType>;
 }>;
 

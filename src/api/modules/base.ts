@@ -12,6 +12,12 @@ export const typeDefs = gql`
   type Subscription {
     _empty: Boolean
   }
+
+  enum Location {
+    WEST
+    CENTRE
+    EAST
+  }
 `;
 
 export const resolvers = {};

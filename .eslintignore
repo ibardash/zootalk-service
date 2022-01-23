@@ -3,3 +3,4 @@ build
 docs
 .eslintrc.js
 babel.config.js
+*.generated.ts
