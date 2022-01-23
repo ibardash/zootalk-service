@@ -39,6 +39,10 @@ export const findZooById = (id: string): Zoo | null => {
   return zoos.find((zoo) => zoo.id === id) ?? null;
 };
 
+export const findChatById = (id: string): Chat | null => {
+  return chats.find((chat) => chat.id === id) ?? null;
+};
+
 export const findChatForZoo = (zooId: string): Chat | null => {
   return chats.find((chat) => chat.zooId === zooId) ?? null;
 };
@@ -51,7 +55,7 @@ export const findZooForChat = (id: string): Zoo | null => {
 };
 
 export const findMessagesByChatId = (id: string): Message[] => {
-  return messages.filter((message) => message.chatId === id);
+  return messages.filter((message) => message.chatId === id).reverse();
 };
 
 export const findUsersByZooId = (id: string): User[] => {

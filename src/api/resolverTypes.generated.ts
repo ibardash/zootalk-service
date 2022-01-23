@@ -57,9 +57,15 @@ export type GraphQLMutationPostMessageArgs = {
 export type GraphQLQuery = {
   __typename?: 'Query';
   _empty?: Maybe<Scalars['Boolean']>;
+  chat?: Maybe<GraphQLChat>;
   user?: Maybe<GraphQLUser>;
   zoo?: Maybe<GraphQLZoo>;
   zoos?: Maybe<Array<GraphQLZoo>>;
+};
+
+
+export type GraphQLQueryChatArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -213,6 +219,7 @@ export type GraphQLMutationResolvers<ContextType = Context, ParentType extends G
 
 export type GraphQLQueryResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['Query'] = GraphQLResolversParentTypes['Query']> = ResolversObject<{
   _empty?: Resolver<Maybe<GraphQLResolversTypes['Boolean']>, ParentType, ContextType>;
+  chat?: Resolver<Maybe<GraphQLResolversTypes['Chat']>, ParentType, ContextType, RequireFields<GraphQLQueryChatArgs, 'id'>>;
   user?: Resolver<Maybe<GraphQLResolversTypes['User']>, ParentType, ContextType, RequireFields<GraphQLQueryUserArgs, 'id'>>;
   zoo?: Resolver<Maybe<GraphQLResolversTypes['Zoo']>, ParentType, ContextType, RequireFields<GraphQLQueryZooArgs, 'location'>>;
   zoos?: Resolver<Maybe<Array<GraphQLResolversTypes['Zoo']>>, ParentType, ContextType>;
