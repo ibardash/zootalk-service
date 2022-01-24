@@ -43,6 +43,10 @@ export const findChatById = (id: string): Chat | null => {
   return chats.find((chat) => chat.id === id) ?? null;
 };
 
+export const findMessageById = (id: string): Message | null => {
+  return messages.find((message) => message.id === id) ?? null;
+};
+
 export const findChatForZoo = (zooId: string): Chat | null => {
   return chats.find((chat) => chat.zooId === zooId) ?? null;
 };
@@ -52,6 +56,13 @@ export const findZooForChat = (id: string): Zoo | null => {
   if (!chat) return null;
 
   return findZooById(chat?.zooId);
+};
+
+export const findUserForMessage = (id: string): User | null => {
+  const message = findMessageById(id);
+  if (!message) return null;
+
+  return findUserById(message?.posterId);
 };
 
 export const findMessagesByChatId = (id: string): Message[] => {
@@ -83,18 +94,18 @@ export const findChatForUser = (id: string): Chat | null => {
 export const createMessage = ({
   chatId,
   content,
-  poster,
+  posterId,
 }: {
   chatId: string;
   content: string;
-  poster: string;
+  posterId: string;
 }): Message => {
   const message = {
     id: uuid(),
     chatId,
     content,
     postedAt: Date.now(),
-    poster,
+    posterId,
   };
 
   messages.push(message);
@@ -105,14 +116,17 @@ export const createMessage = ({
 export const createUser = ({
   name,
   zooId,
+  avatar,
 }: {
   name: string;
   zooId: string;
+  avatar?: string | null | undefined;
 }): User => {
   const user = {
     id: uuid(),
     name,
     zooId,
+    avatar,
   };
 
   users.push(user);

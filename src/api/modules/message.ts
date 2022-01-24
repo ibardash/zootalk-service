@@ -9,7 +9,6 @@ export const typeDefs = gql`
   type Message {
     id: String!
     content: String
-    poster: String!
   }
 
   extend type Chat {
@@ -17,7 +16,7 @@ export const typeDefs = gql`
   }
 
   extend type Mutation {
-    postMessage(content: String!, poster: String!, chatId: String!): Message
+    postMessage(content: String!, posterId: String!, chatId: String!): Message
   }
 
   extend type Subscription {

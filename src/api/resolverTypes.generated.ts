@@ -31,7 +31,7 @@ export type GraphQLMessage = {
   __typename?: 'Message';
   content?: Maybe<Scalars['String']>;
   id: Scalars['String'];
-  poster: Scalars['String'];
+  poster?: Maybe<GraphQLUser>;
 };
 
 export type GraphQLMutation = {
@@ -43,6 +43,7 @@ export type GraphQLMutation = {
 
 
 export type GraphQLMutationCreateUserArgs = {
+  avatar?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   zooId: Scalars['String'];
 };
@@ -51,7 +52,7 @@ export type GraphQLMutationCreateUserArgs = {
 export type GraphQLMutationPostMessageArgs = {
   chatId: Scalars['String'];
   content: Scalars['String'];
-  poster: Scalars['String'];
+  posterId: Scalars['String'];
 };
 
 export type GraphQLQuery = {
@@ -86,6 +87,7 @@ export type GraphQLSubscription = {
 
 export type GraphQLUser = {
   __typename?: 'User';
+  avatar?: Maybe<Scalars['String']>;
   chat?: Maybe<GraphQLChat>;
   id: Scalars['String'];
   name?: Maybe<Scalars['String']>;
@@ -207,14 +209,14 @@ export type GraphQLLocationResolvers = EnumResolverSignature<{ CENTRE?: any, EAS
 export type GraphQLMessageResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['Message'] = GraphQLResolversParentTypes['Message']> = ResolversObject<{
   content?: Resolver<Maybe<GraphQLResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<GraphQLResolversTypes['String'], ParentType, ContextType>;
-  poster?: Resolver<GraphQLResolversTypes['String'], ParentType, ContextType>;
+  poster?: Resolver<Maybe<GraphQLResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type GraphQLMutationResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['Mutation'] = GraphQLResolversParentTypes['Mutation']> = ResolversObject<{
   _empty?: Resolver<Maybe<GraphQLResolversTypes['Boolean']>, ParentType, ContextType>;
   createUser?: Resolver<Maybe<GraphQLResolversTypes['User']>, ParentType, ContextType, RequireFields<GraphQLMutationCreateUserArgs, 'name' | 'zooId'>>;
-  postMessage?: Resolver<Maybe<GraphQLResolversTypes['Message']>, ParentType, ContextType, RequireFields<GraphQLMutationPostMessageArgs, 'chatId' | 'content' | 'poster'>>;
+  postMessage?: Resolver<Maybe<GraphQLResolversTypes['Message']>, ParentType, ContextType, RequireFields<GraphQLMutationPostMessageArgs, 'chatId' | 'content' | 'posterId'>>;
 }>;
 
 export type GraphQLQueryResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['Query'] = GraphQLResolversParentTypes['Query']> = ResolversObject<{
@@ -231,6 +233,7 @@ export type GraphQLSubscriptionResolvers<ContextType = Context, ParentType exten
 }>;
 
 export type GraphQLUserResolvers<ContextType = Context, ParentType extends GraphQLResolversParentTypes['User'] = GraphQLResolversParentTypes['User']> = ResolversObject<{
+  avatar?: Resolver<Maybe<GraphQLResolversTypes['String']>, ParentType, ContextType>;
   chat?: Resolver<Maybe<GraphQLResolversTypes['Chat']>, ParentType, ContextType>;
   id?: Resolver<GraphQLResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<Maybe<GraphQLResolversTypes['String']>, ParentType, ContextType>;

@@ -24,11 +24,12 @@ export interface Message {
   chatId: string;
   content: string;
   postedAt: number;
-  poster: string;
+  posterId: string;
 }
 
 export interface User {
   id: string;
   name: string;
+  avatar?: string | null | undefined;
   zooId: string;
 }
