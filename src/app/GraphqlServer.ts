@@ -1,11 +1,21 @@
 import { ApolloServer } from "apollo-server-koa";
 import Koa from "koa";
-import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import http from "http";
 import { GraphQLSchema } from "graphql";
 import { createServer } from "http";
 import { execute, subscribe } from "graphql";
 import { SubscriptionServer } from "subscriptions-transport-ws";
+import { Context } from "local/domain/types";
+
+interface ContextArgs {
+  ctx: {
+    request: {
+      token: string;
+    };
+  };
+
+  connection?: { context: Context };
+}
 
 export class GraphqlServer {
   protected apolloServer: ApolloServer;
@@ -32,10 +42,14 @@ export class GraphqlServer {
 
     this.apolloServer = new ApolloServer({
       schema,
+      context: this.context,
       plugins: [
-        ApolloServerPluginDrainHttpServer({ httpServer: this.httpServer }),
         {
+          // event fires when Apollo Server is preparing to start up
           async serverWillStart() {
+            // event fires when Apollo Server is starting to shut down
+            // this hook is designed to allow you to stop accepting new connections
+            // and close existing connections.
             return {
               async drainServer() {
                 subscriptionServer.close();
@@ -47,13 +61,26 @@ export class GraphqlServer {
     });
   }
 
+  context({ ctx, connection }: ContextArgs): Context {
+    const dummyToken = `This is a token generated at: ${new Date()}`;
+
+    if (connection) {
+      // Operation is a Subscription
+      // Obtain connectionParams-provided token from connection.context
+      const token = connection.context.token || dummyToken;
+      return { token };
+    }
+
+    // Operation is a Query/Mutation
+    // Obtain header-provided token
+    const token = ctx.request.token || dummyToken;
+    return { token };
+  }
+
   async start(port: string): Promise<void> {
     await this.apolloServer.start();
     this.apolloServer.applyMiddleware({ app: this.app });
-
-    await new Promise<void>((resolve) =>
-      this.httpServer.listen({ port }, resolve)
-    );
+    this.httpServer.listen({ port });
 
     console.log(
       `🚀 Server ready at http://localhost:${port}${this.apolloServer.graphqlPath}`

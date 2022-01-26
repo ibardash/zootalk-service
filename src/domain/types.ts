@@ -23,8 +23,7 @@ export interface Message {
   id: string;
   chatId: string;
   content: string;
-  postedAt: number;
-  posterId: string;
+  senderId: string;
 }
 
 export interface User {

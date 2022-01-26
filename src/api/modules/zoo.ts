@@ -1,15 +1,20 @@
 import { gql } from "apollo-server-koa";
 import { GraphQLResolvers } from "local/api/resolverTypes.generated";
 import {
-  findZooByLocation,
   findZooForChat,
   findZooForUser,
   listAllZoos,
 } from "local/domain/repository";
 
 export const typeDefs = gql`
+  """
+  A representation of Zoo
+  """
   type Zoo {
-    id: String!
+    """
+    uuid format
+    """
+    id: ID!
     name: String
     location: Location!
   }
@@ -23,7 +28,6 @@ export const typeDefs = gql`
   }
 
   extend type Query {
-    zoo(location: Location!): Zoo
     zoos: [Zoo!]
   }
 `;
@@ -40,10 +44,7 @@ export const resolvers: GraphQLResolvers = {
     },
   },
   Query: {
-    zoo(_parent, { location }) {
-      return findZooByLocation(location);
-    },
-    zoos(_parent) {
+    zoos() {
       return listAllZoos();
     },
   },

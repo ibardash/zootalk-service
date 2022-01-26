@@ -9,13 +9,15 @@ import {
 
 export const typeDefs = gql`
   type User {
-    id: String!
+    id: ID!
     name: String
     avatar: String
+    picture: String
+      @deprecated(reason: "picture is deprecated, use avatar instead")
   }
 
   extend type Message {
-    poster: User
+    sender: User
   }
 
   extend type Zoo {
@@ -38,7 +40,7 @@ export const resolvers: GraphQLResolvers = {
     },
   },
   Message: {
-    poster({ id }) {
+    sender({ id }) {
       return findUserForMessage(id);
     },
   },

@@ -1,46 +1,13 @@
 import { v4 as uuid } from "uuid";
-import { Chat, LOCATION, Message, User, Zoo } from "./types";
-
-const zoos: Zoo[] = [
-  {
-    id: uuid(),
-    name: "Western Zoo",
-    location: LOCATION.WEST,
-  },
-  {
-    id: uuid(),
-    name: "Central Zoo",
-    location: LOCATION.CENTRE,
-  },
-  {
-    id: uuid(),
-    name: "Eastern Zoo",
-    location: LOCATION.EAST,
-  },
-];
-
-const chats: Chat[] = zoos.map((zoo) => ({
-  id: uuid(),
-  zooId: zoo.id,
-}));
-
-const messages: Message[] = [];
-const users: User[] = [];
+import { chats, messages, users, zoos } from "./data";
+import { Chat, Message, User, Zoo } from "./types";
 
 export const listAllZoos = (): Zoo[] => {
   return zoos;
 };
 
-export const findZooByLocation = (location: LOCATION): Zoo | null => {
-  return zoos.find((zoo) => zoo.location === location) ?? null;
-};
-
 export const findZooById = (id: string): Zoo | null => {
   return zoos.find((zoo) => zoo.id === id) ?? null;
-};
-
-export const findChatById = (id: string): Chat | null => {
-  return chats.find((chat) => chat.id === id) ?? null;
 };
 
 export const findMessageById = (id: string): Message | null => {
@@ -62,7 +29,7 @@ export const findUserForMessage = (id: string): User | null => {
   const message = findMessageById(id);
   if (!message) return null;
 
-  return findUserById(message?.posterId);
+  return findUserById(message?.senderId);
 };
 
 export const findMessagesByChatId = (id: string): Message[] => {
@@ -94,18 +61,17 @@ export const findChatForUser = (id: string): Chat | null => {
 export const createMessage = ({
   chatId,
   content,
-  posterId,
+  senderId,
 }: {
   chatId: string;
   content: string;
-  posterId: string;
+  senderId: string;
 }): Message => {
   const message = {
     id: uuid(),
     chatId,
     content,
-    postedAt: Date.now(),
-    posterId,
+    senderId,
   };
 
   messages.push(message);

@@ -7,7 +7,7 @@ const pubsub = new PubSub();
 
 export const typeDefs = gql`
   type Message {
-    id: String!
+    id: ID!
     content: String
   }
 
@@ -16,7 +16,7 @@ export const typeDefs = gql`
   }
 
   extend type Mutation {
-    postMessage(content: String!, posterId: String!, chatId: String!): Message
+    postMessage(content: String!, senderId: String!, chatId: String!): Message
   }
 
   extend type Subscription {
